@@ -19,7 +19,7 @@ namespace FaceRecognitionPT
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form buf = new Recognition();
+            Form buf = new Rec();
             buf.Show();
         }
 
@@ -27,6 +27,11 @@ namespace FaceRecognitionPT
         {
             Form buf = new Training();
             buf.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Projekt Rozpoznawanie twarzy i śledzenie ruchu", "INFO", MessageBoxButtons.OK);
         }
     }
 }
