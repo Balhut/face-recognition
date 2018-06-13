@@ -10,28 +10,23 @@ using System.Windows.Forms;
 
 namespace FaceRecognitionPT
 {
-    public partial class Menu : Form
+    public partial class Baza : Form
     {
-        public Menu()
+        public Baza()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form buf = new Rec();
+            Form buf = new Training();
             buf.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form buf = new Baza();
+            Form buf = new Usuwanie();
             buf.Show();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Projekt Rozpoznawanie twarzy i śledzenie ruchu", "INFO", MessageBoxButtons.OK);
         }
     }
 }

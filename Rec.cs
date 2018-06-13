@@ -25,13 +25,41 @@ namespace FaceRecognitionPT
         List<Image<Gray, byte>> imagesT = new List<Image<Gray, byte>>();
         List<string> labels = new List<string>();
         List<string> Pearsons = new List<string>();
+        List<string> Recognation = new List<string>();
+        bool alreadyExist = false;
+        int zapis = 1;
 
-        string name, names;
+
+
+
+
+
+
+
+    string name, names;
         int j, labelsIndex, recognized;
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < Recognation.ToArray().Length; i++)
+            {
+                File.WriteAllText(Application.StartupPath + "listaobecnosci.txt", Recognation.ToArray()[i] + ";");
+            }
+            MessageBox.Show("Lista zgrana do pliku listaobecnosci.txt", "Lista zgrana!", MessageBoxButtons.OK);
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            Recognation.Clear();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (zapis==1)
+            { zapis = 0; }
+            else { zapis = 1; }
         }
 
         public Rec()
@@ -51,6 +79,7 @@ namespace FaceRecognitionPT
                     buforFaces = "pearson" + tf + ".bmp";
                     imagesT.Add(new Image<Gray, byte>(Application.StartupPath + buforFaces));
                     this.labels.Add(labels[tf]);
+
                 }
 
                 //camera on
@@ -76,7 +105,7 @@ namespace FaceRecognitionPT
             foreach (MCvAvgComp f in facesDetected[0])
             {
                 j++;
-                result = currentImg.Copy(f.rect).Convert<Gray, byte>().Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
+                result = currentImg.Copy(f.rect).Convert<Gray, byte>().Resize(200, 200, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
 
                 currentImg.Draw(f.rect, new Bgr(Color.OrangeRed), 2);
 
@@ -87,6 +116,12 @@ namespace FaceRecognitionPT
                     EigenObjectRecognizer recognizer = new EigenObjectRecognizer(imagesT.ToArray(), labels.ToArray(), 3000, ref termCrit);
                     name = recognizer.Recognize(result);
                     currentImg.Draw(name, ref font, new Point(f.rect.X - 2, f.rect.Y - 2), new Bgr(Color.GreenYellow));
+                    alreadyExist = Recognation.Contains(name);
+                    if (!alreadyExist && name != "" && zapis==1) {
+                        Recognation.Add(name);
+                        listBox1.Items.Clear();
+                        listBox1.Items.AddRange(Recognation.ToArray());
+                    }
                 }
 
                 Pearsons[j - 1] = name;
@@ -105,5 +140,7 @@ namespace FaceRecognitionPT
             Pearsons.Clear();
         }
 
-    }
+
+
+}
 }
